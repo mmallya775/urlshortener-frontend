@@ -1,10 +1,11 @@
 import {cn} from "cn"
 
 import {Button} from "@/components/ui/button"
-import {Field, FieldGroup, FieldLabel,} from "@/components/ui/field"
+import {Field, FieldDescription, FieldGroup, FieldLabel,} from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
 import {AlertCircleIcon} from "lucide-react"
+import {useNavigate} from "react-router";
 
 interface LoginFormProps
   extends React.ComponentProps<"form"> {
@@ -18,6 +19,7 @@ export function LoginForm({
                             error,
                             ...props
                           }: LoginFormProps) {
+  const navigate = useNavigate()
   return (
     <form
       className={cn(
@@ -87,6 +89,9 @@ export function LoginForm({
               : "Login"}
           </Button>
         </Field>
+        <FieldDescription className="text-center">
+          Don&apos;t have an account? <a onClick={() => navigate("/signup", {replace: true,})}>Sign up</a>
+        </FieldDescription>
       </FieldGroup>
     </form>
   )
