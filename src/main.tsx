@@ -4,12 +4,15 @@ import './index.css'
 import {BrowserRouter} from "react-router";
 import App from './App.tsx'
 import {AuthProvider} from "@/auth/AuthContext.tsx";
+import {ThemeProvider} from "@/components/theme-provider.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App/>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <App/>
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
