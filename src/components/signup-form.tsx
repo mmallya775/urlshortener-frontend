@@ -4,11 +4,21 @@ import {Button} from "@/components/ui/button"
 import {Field, FieldDescription, FieldGroup, FieldLabel,} from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
 import {useNavigate} from "react-router";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
+import {AlertCircleIcon} from "lucide-react";
+
+interface SignupForm
+  extends React.ComponentProps<"form"> {
+  submitting?: boolean
+  error?: string | null
+}
 
 export function SignupForm({
                              className,
+                             submitting = false,
+                             error,
                              ...props
-                           }: React.ComponentProps<"form">) {
+                           }: SignupForm) {
 
   const navigate = useNavigate();
 
@@ -21,24 +31,37 @@ export function SignupForm({
             Fill in the form below to create your account
           </p>
         </div>
+        {error && (
+          <Alert variant="destructive" className="max-w-md">
+            <AlertCircleIcon/>
+            <AlertTitle>Account Creation Failed</AlertTitle>
+            <AlertDescription>
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
         <Field>
           <FieldLabel htmlFor="name">Full Name</FieldLabel>
           <Input
             id="name"
+            name="name"
             type="text"
             placeholder="John Doe"
             required
             className="bg-background"
+            autoComplete="name"
           />
         </Field>
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldLabel htmlFor="username">Username</FieldLabel>
           <Input
-            id="email"
-            type="email"
-            placeholder="m@example.com"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Username"
             required
             className="bg-background"
+            autoComplete="username"
           />
           <FieldDescription>
             We&apos;ll use this to contact you. We will not share your email
@@ -49,9 +72,11 @@ export function SignupForm({
           <FieldLabel htmlFor="password">Password</FieldLabel>
           <Input
             id="password"
+            name="password"
             type="password"
             required
             className="bg-background"
+            autoComplete="current-password"
           />
           <FieldDescription>
             Must be at least 8 characters long.
@@ -61,14 +86,20 @@ export function SignupForm({
           <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
           <Input
             id="confirm-password"
+            name="confirm-password"
             type="password"
             required
             className="bg-background"
+            autoComplete="current-password"
           />
           <FieldDescription>Please confirm your password.</FieldDescription>
         </Field>
         <Field>
-          <Button type="submit">Create Account</Button>
+          <Button type="submit" disabled={submitting}>
+            {submitting
+              ? "Creating Account..."
+              : "Create Account"}
+          </Button>
         </Field>
 
         <Field>
