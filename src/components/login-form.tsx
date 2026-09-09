@@ -3,6 +3,8 @@ import {cn} from "cn"
 import {Button} from "@/components/ui/button"
 import {Field, FieldGroup, FieldLabel,} from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
+import {AlertCircleIcon} from "lucide-react"
 
 interface LoginFormProps
   extends React.ComponentProps<"form"> {
@@ -35,6 +37,16 @@ export function LoginForm({
             Enter your credentials below to login
           </p>
         </div>
+
+        {error && (
+          <Alert variant="destructive" className="max-w-md">
+            <AlertCircleIcon/>
+            <AlertTitle>Login failed</AlertTitle>
+            <AlertDescription>
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Field>
           <FieldLabel htmlFor="username">
@@ -75,13 +87,6 @@ export function LoginForm({
               : "Login"}
           </Button>
         </Field>
-
-        {error && (
-          <p className="text-sm text-destructive">
-            {error}
-          </p>
-        )}
-
       </FieldGroup>
     </form>
   )
