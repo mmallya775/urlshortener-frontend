@@ -9,5 +9,6 @@ export interface CsrfToken {
 
 export interface CurrentUser {
   username: string;
+  name: string;
   roles: Role[];
 }

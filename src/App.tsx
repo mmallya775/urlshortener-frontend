@@ -1,24 +1,21 @@
-import './App.css'
-import {getCsrfToken} from "./api/authApi.ts";
-import {useEffect} from "react";
+import "./App.css";
+
+import {Route, Routes} from "react-router";
+
+import LoginPage from "@/pages/LoginPage";
+import HomePage from "@/pages/HomePage";
+import ProtectedRoute from "@/auth/ProtectedRoute";
 
 function App() {
-
-  useEffect(() => {
-    async function loadCsrfToken() {
-      const csrfToken = await getCsrfToken();
-
-      console.log(csrfToken);
-    }
-
-    loadCsrfToken();
-  }, []);
-
   return (
-    <>
-      <p className={"text-center text-orange-400"}>Hi There</p>
-    </>
-  )
+    <Routes>
+      <Route path="/signin" element={<LoginPage/>}/>
+
+      <Route element={<ProtectedRoute/>}>
+        <Route path="/" element={<HomePage/>}/>
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
