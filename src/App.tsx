@@ -6,6 +6,7 @@ import LoginPage from "@/pages/LoginPage";
 import HomePage from "@/pages/HomePage";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import SignupPage from "@/pages/SignupPage.tsx";
+import AppLayout from "@/pages/AppLayout.tsx";
 
 function App() {
   return (
@@ -14,10 +15,14 @@ function App() {
       <Route path={"/signup"} element={<SignupPage/>}/>
 
       <Route element={<ProtectedRoute/>}>
-        <Route path="/" element={<HomePage/>}/>
+        <Route element={<AppLayout/>}>
+          <Route path="/" element={<HomePage/>}/>
+          <Route path={"/change-password"} element={<HomePage/>}/>
+        </Route>
       </Route>
     </Routes>
-  );
+  )
+    ;
 }
 
 export default App;
