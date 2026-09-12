@@ -13,7 +13,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import {ModeToggle} from "@/components/mode-toggle.tsx";
-import {NavLink, useNavigate} from "react-router";
+import {NavLink, useLocation, useNavigate} from "react-router";
 import {Button} from "@/components/ui/button.tsx";
 import {useAuth} from "@/auth/AuthContext.tsx";
 
@@ -39,9 +39,9 @@ const data = {
 }
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
-
   const {logout} = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   async function handleLogout(): Promise<void> {
     await logout();
@@ -53,7 +53,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<a href="#"/>}>
+            <div className="flex h-12 items-center px-2">
               <div className="flex items-center gap-2">
                 <div
                   className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
@@ -63,10 +63,10 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <span className="font-medium">SmallifyURL</span>
               </div>
-              <div className="ml-auto flex items-center justify-center">
+              <div className="ml-auto">
                 <ModeToggle/>
               </div>
-            </SidebarMenuButton>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -75,22 +75,19 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu className="gap-2">
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  render={<a href={item.url} className="font-medium"/>}
-                >
+                <SidebarMenuButton className="font-medium">
                   {item.title}
                 </SidebarMenuButton>
                 {item.items?.length ? (
                   <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <NavLink to={item.url}>
-                          {({isActive}) => (
-                            <SidebarMenuSubButton isActive={isActive}>
-                              {item.title}
-                            </SidebarMenuSubButton>
-                          )}
-                        </NavLink>
+                    {item.items.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton
+                          render={<NavLink to={subItem.url}/>}
+                          isActive={location.pathname === subItem.url}
+                        >
+                          {subItem.title}
+                        </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
                   </SidebarMenuSub>
@@ -99,12 +96,10 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        <Button
-          variant={"destructive"}
-          className={"mt-auto h-8 transition-all"}
-          onClick={() => void handleLogout()}
-        >Logout</Button>
+        <Button variant="destructive" className="mt-auto h-8 transition-all" onClick={() => void handleLogout()}>
+          Logout
+        </Button>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
