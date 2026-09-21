@@ -1,6 +1,8 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import type {DataTableFeatures} from "@/components/url-table/data-table-features.ts";
 import type {Urls} from "@/types/urlTypes.ts";
+import {Button} from "@/components/ui/button.tsx";
+import {Trash2} from "lucide-react";
 
 const columnHelper = createColumnHelper<DataTableFeatures, Urls>()
 
@@ -36,5 +38,19 @@ export const columns = columnHelper.columns([
     }
   }),
   columnHelper.accessor("shortCode", {header: "ShortCode"}),
+  columnHelper.display({
+    id: "deletion", header: "Delete",
+    cell: (info) => {
+      const url = info.row.original;
+
+      return (
+        <Button
+          variant={"destructive"}
+          onClick={() => info.table.options.meta?.handleDelete(url)}>
+          <Trash2/>
+        </Button>
+      )
+    }
+  }),
 ]);
 

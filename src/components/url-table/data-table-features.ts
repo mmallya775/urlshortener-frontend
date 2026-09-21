@@ -5,6 +5,7 @@ import {
   createPaginatedRowModel,
   createSortedRowModel,
   filterFn_includesString,
+  metaHelper,
   rowPaginationFeature,
   rowSelectionFeature,
   rowSortingFeature,
@@ -12,6 +13,7 @@ import {
   sortFn_text,
   tableFeatures,
 } from "@tanstack/react-table"
+import type {Urls} from "@/types/urlTypes.ts";
 
 export const features = tableFeatures({
   columnFilteringFeature,
@@ -24,6 +26,7 @@ export const features = tableFeatures({
   sortedRowModel: createSortedRowModel(),
   filterFns: {includesString: filterFn_includesString},
   sortFns: {alphanumeric: sortFn_alphanumeric, text: sortFn_text},
+  tableMeta: metaHelper<{ handleDelete: (url: Urls) => void }>(),
 })
 
 export type DataTableFeatures = typeof features

@@ -14,3 +14,15 @@ export async function getAllUrls(): Promise<Urls[] | null> {
     throw new Error("Could not fetch all URL(s)");
   }
 }
+
+export async function deleteRow(id: number): Promise<void> {
+  const csrfResponse = await httpClient.get("/api/csrf");
+
+  const {token, headerName} = csrfResponse.data;
+
+  await httpClient.delete(`/api/v1/delete/${id}`, {
+    headers: {
+      [headerName]: token
+    }
+  });
+}

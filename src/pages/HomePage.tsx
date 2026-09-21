@@ -2,7 +2,7 @@ import {useNavigate} from "react-router";
 
 import {useAuth} from "@/auth/AuthContext";
 import {Button} from "@/components/ui/button";
-import {getAllUrls} from "@/api/urls.ts";
+import {deleteRow, getAllUrls} from "@/api/urls.ts";
 import {useEffect, useState} from "react";
 import type {Urls} from "@/types/urlTypes.ts";
 import {DataTable} from "@/components/url-table/UrlDataTable.tsx";
@@ -16,6 +16,14 @@ export default function HomePage() {
   async function handleLogout(): Promise<void> {
     await logout();
     navigate("/signin", {replace: true});
+  }
+
+  async function handleDelete(url: Urls) {
+    await deleteRow(url.id);
+
+    setUrls(current =>
+      current.filter(item => item.id !== url.id)
+    );
   }
 
   useEffect(() => {
@@ -52,7 +60,7 @@ export default function HomePage() {
       {/*  ))}*/}
       {/*</ul>*/}
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={urls} />
+        <DataTable columns={columns} data={urls} handleDelete={handleDelete}/>
       </div>
     </>
   );
