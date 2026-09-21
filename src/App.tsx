@@ -17,12 +17,11 @@ function App() {
       <Route element={<ProtectedRoute/>}>
         <Route element={<AppLayout/>}>
           <Route path="/" element={<HomePage/>}/>
-          <Route path={"/change-password"} element={<HomePage/>}/>
+          <Route path={"/change-password"} element={<p>Coming Soon</p>}/>
         </Route>
       </Route>
     </Routes>
-  )
-    ;
+  );
 }
 
 export default App;

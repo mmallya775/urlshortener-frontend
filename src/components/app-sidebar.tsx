@@ -75,7 +75,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu className="gap-2">
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton className="font-medium">
+                <SidebarMenuButton className="font-medium" disabled={true}>
                   {item.title}
                 </SidebarMenuButton>
                 {item.items?.length ? (
